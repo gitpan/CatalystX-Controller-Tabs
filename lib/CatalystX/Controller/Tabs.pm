@@ -1,8 +1,8 @@
 package CatalystX::Controller::Tabs;
 use strict;
 use warnings;
-our $VERSION = '0.01';
-our $ID = '$Id: Tabs.pm 6 2008-01-30 02:19:06Z jason $';
+our $VERSION = '0.02';
+our $ID = '$Id: Tabs.pm 11 2008-01-30 15:18:52Z jason $';
 use base qw( Catalyst::Controller );
 use NEXT;
 

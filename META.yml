@@ -6,6 +6,7 @@ build_requires:
   Catalyst::Runtime: 0
   Test::More: 0
   Test::WWW::Mechanize::Catalyst: 0
+  ok: 0
 distribution_type: module
 generated_by: Module::Install version 0.68
 license: perl
@@ -20,4 +21,4 @@ no_index:
 requires: 
   Catalyst::Controller: 0
   NEXT: 0
-version: 0.01
+version: 0.02

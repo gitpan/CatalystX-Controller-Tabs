@@ -1,4 +1,7 @@
-Revision history for Perl extension DBICx::AutoDoc.
+Revision history for Perl extension CatalystX-Controller-Tabs
 
-0.01    Tue Jan 29 20:54:32 EST 2008
+0.02  Wed Jan 30 10:17:46 EST 2008
+    - Added 'ok' to the build_requires, oops.
+
+0.01  Tue Jan 29 20:54:32 EST 2008
     - initial release
