@@ -1,0 +1,173 @@
+NAME
+    CatalystX::Controller::Tabs - Automatically build tab sets for a
+    controller
+
+SYNOPSIS
+      package MyApp::Controller::Something;
+      use base qw( Catalyst::Controller CatalystX::Controller::Tabs );
+      
+  sub friends : Local Tab('Friends') {
+        my ( $self, $c ) = @_;
+        
+    $c->stash->{ 'template' } = 'friends_list.tt2';
+      }
+      
+  sub enemies : Local Tab('Enemies') {
+        my ( $self, $c ) = @_;
+        
+    $c->stash->{ 'template' } = 'enemies_list.tt2';
+      }
+      
+  sub auto : Private {
+        my ( $self, $c ) = @_;
+        
+    $c->forward( 'build_tabs' )
+      }
+
+      [%# Template friends_list.tt2 %]
+      [% PROCESS tabs.tt2 %]
+      <ul>[% FOR enemy IN enemies %]<li>[% enemy %]</li>[% END %]</ul>
+      
+  [%# Template enemeies_list.tt2 %]
+      [% PROCESS tabs.tt2 %]
+      <ul>[% FOR friend IN friends %]<li>[% friend %]</li>[% END %]</ul>
+      
+  [%# Template friends_list.tt2 %]
+      <ul>
+      [% FOR tab IN tabs %]
+          <li[% IF tab.selected %] class="selected">
+              <a href="[% tab.uri %]">[% tab.label %]</a>
+          </li>
+      [% END %]
+      </ul>
+
+DESCRIPTION
+    This module allows you to add a 'Tab' attribute to action endpoints, and
+    it will automatically build a data structure suitable for rendering
+    'tabs' to switch between the methods that share the same tab structure.
+
+    Although this was originally built to help with making tabbed
+    interfaces, it isn't limited to creating tabs, as it simply collects the
+    information about the related actions. Actions are considered to be
+    related if they share a namespace.
+
+METHODS
+  build_tabs
+    This is the only method provided by this module, and you need to make
+    sure you arrange to forward to this method when you want the tab data
+    structure to be built.
+
+CONFIGURATION
+    You can configure this module with the normal Catalyst style of
+    controller configuration. The default configuration is:
+
+        __PACKAGE__->config( {
+            tabs    => {
+                stash_key       => 'tabs',
+            }
+        } );
+
+  CONFIGURATION OPTIONS
+    stash_key
+        This configuration option controls the key that will be used to
+        store the the generated data structure in the stash.
+
+SAMPLE CSS
+    Here is some CSS that works with the template included in the synopsis.
+    It's probably not exactly what you need, but it should give a decent
+    starting point...
+
+      ul.tabs {
+        text-align: left;
+        margin: 1em 0 1em 0;
+        border-bottom: 1px solid #6c6;
+        list-style-type: none;
+        padding: 3px 10px 3px 10px;
+      }
+          
+  ul.tabs li {
+        display: inline;
+      }
+      
+  ul.tabs li.selected {
+        border-bottom: 1px solid #fff;
+        background-color: #fff;
+      }
+      
+  ul.tabs li.selected a {
+        background-color: #fff;
+        color: #000;
+        position: relative;
+        top: 1px;
+        padding-top: 4px;
+      }
+      
+  ul.tabs li a {
+        padding: 3px 4px;
+        border: 1px solid #6c6;
+        background-color: #cfc;
+        color: #666;
+        margin-right: 0px;
+        text-decoration: none;
+        border-bottom: none;
+      }
+      
+  ul.tabs a:hover {
+        background: #fff;
+    }
+
+SEE ALSO
+    <http://www.jasonkohles.com/software/CatalystX-Controller-Tabs>
+
+    <http://catalyst.perl.org/>
+
+SUPPORT
+    You can find documentation for this module with the perldoc command.
+
+        perldoc CatalystX::Controller::Tabs
+
+    You can also look for information at:
+
+    *   Project home page
+
+        <http://www.jasonkohles.com/software/CatalystX-Controller-Tabs>
+
+    *   AnnoCPAN: Annotated CPAN documentation
+
+        <http://annocpan.org/dist/CatalystX-Controller-Tabs>
+
+    *   CPAN Ratings
+
+        <http://cpanratings.perl.org/d/CatalystX-Controller-Tabs>
+
+    *   RT: CPAN's request tracker
+
+        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=CatalystX-Controller-Tabs>
+
+    *   Search CPAN
+
+        <http://search.cpan.org/dist/CatalystX-Controller-Tabs>
+
+BUGS
+    Please report any bugs or feature requests to
+    "bug-catalystx-controller-tabs at rt.cpan.org", or through the web
+    interface at <http://rt.cpan.org>. I will be notified, and then you'll
+    automatically be notified of progress on your bug as I make changes.
+
+  KNOWN BUGS
+    The methods provided for determining the URI for an action don't seem to
+    work the same way for Catalyst::DispatchType::Regex actions, but this
+    hasn't been a big issue for me so far, and I haven't had time to track
+    the problem down yet (it seems to be an issue with
+    Catalyst::DispatchType::Regex/uri_for_action if you want to look for
+    it...)
+
+AUTHOR
+    Jason Kohles "<email@jasonkohles.com>" <http://www.jasonkohles.com>
+
+COPYRIGHT AND LICENSE
+    Copyright (C) 2007-2008 Jason Kohles.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
